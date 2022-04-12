@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import AuthContext from "../../contexts/AuthContext";
-import { LOGIN_GET_TOKEN } from "../../GraphQl/Querry";
+import { LOGIN_GET_TOKEN } from "../../GraphQl/Query";
 import logo from "../../images/jugendwerkstatt-logo.png";
 
 const Index = () => {

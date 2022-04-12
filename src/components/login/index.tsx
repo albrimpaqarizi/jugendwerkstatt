@@ -31,7 +31,7 @@ const Index = () => {
   };
   const { userToken, setuserToken } = useContext(AuthContext);
 
-  const [getuserFunction, { loading, error, data }] = useMutation(LOGIN_GET_TOKEN);
+  const [getUserTokenFunction, { loading, error, data }] = useMutation(LOGIN_GET_TOKEN);
 
   useEffect(() => {
     if (data) {
@@ -45,13 +45,6 @@ const Index = () => {
   }, [userToken]);
 
   const Login = () => {
-    getuserFunction({
-      variables: {
-        username: emailRef.current.value,
-        password: passwordRef.current.value,
-      },
-    });
-
     var isValid = true;
     setEmailValidationText("");
     setPasswordValidationText("");
@@ -82,7 +75,19 @@ const Index = () => {
 
     if (isValid) {
       setDisabledButton(true);
-      //request to backend here
+
+      console.log('test1');
+
+      const responseToken = getUserTokenFunction({
+        variables: {
+          username: emailRef.current.value,
+          password: passwordRef.current.value,
+        },
+      });
+
+      console.log('test2');
+      console.log(responseToken);
+      console.log('test3');
 
       var responseMessage = "wrong";
 

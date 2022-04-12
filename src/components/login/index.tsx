@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import AuthContext from "../../contexts/AuthContext";
-import { LOAD_USERS } from "../../GraphQl/Querry";
+import { LOGIN_GET_TOKEN } from "../../GraphQl/Querry";
 import logo from "../../images/jugendwerkstatt-logo.png";
 
 const Index = () => {
@@ -31,7 +31,7 @@ const Index = () => {
   };
   const { userToken, setuserToken } = useContext(AuthContext);
 
-  const [getuserFunction, { loading, error, data }] = useMutation(LOAD_USERS);
+  const [getuserFunction, { loading, error, data }] = useMutation(LOGIN_GET_TOKEN);
 
   useEffect(() => {
     if (data) {
@@ -76,8 +76,8 @@ const Index = () => {
       setPasswordValidationText("Dies ist ein Pflichtfeld");
       isValid = false;
     } else if (tempPasswordValue.length < 6) {
-      setPasswordValidationText("Die Passwortlänge muss 6 oder mehr betragen");
-      isValid = false;
+        setPasswordValidationText("Die Passwortlänge muss 6 oder mehr betragen");
+        isValid = false;
     }
 
     if (isValid) {

@@ -45,8 +45,8 @@ const Index = () => {
 
         const decoded = JSON.parse(atob(tempAccessToken.split('.')[1]));
         console.log(decoded);
-        const role = decoded.roles[0];
-        if(role=="verified"){
+        const roles = decoded.roles;
+        if(roles.indexOf("verified") > -1){
             console.log("it's verified");
         }
         else{

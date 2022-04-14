@@ -9,6 +9,7 @@ import React, {
 import AuthContext from "../../contexts/AuthContext";
 import { LOGIN_GET_TOKEN } from "../../GraphQl/Query";
 import logo from "../../images/jugendwerkstatt-logo.png";
+// import jwt from 'jwt-decode'
 
 const Index = () => {
   const [passwordInputType, setPasswordInputType] = useState("password");
@@ -29,22 +30,49 @@ const Index = () => {
       setHiddenLine(true);
     }
   };
-  const { userToken, setuserToken } = useContext(AuthContext);
 
+  const { userToken, setUserToken } = useContext(AuthContext);
+  const { refreshToken, setRefreshToken } = useContext(AuthContext);
   const [getUserTokenFunction, { loading, error, data }] = useMutation(LOGIN_GET_TOKEN);
-
+  
   useEffect(() => {
     if (data) {
-      console.log("datahere", data);
-      setuserToken(data);
-    }
-  }, [data]);
+        const tempAccessToken = data.createToken.access;
+        const tempRefreshToken = data.createToken.refresh;
+        setUserToken(tempAccessToken);
+        setRefreshToken(tempRefreshToken);
 
-  useEffect(() => {
-    console.log(userToken, "usertoken");
-  }, [userToken]);
+
+        const decoded = JSON.parse(atob(tempAccessToken.split('.')[1]));
+        console.log(decoded);
+        const role = decoded.roles[0];
+        if(role=="verified"){
+            console.log("it's verified");
+        }
+        else{
+            console.log("it's NOT verified");
+        }
+
+        // localStorage.setItem('jugendwerkstattAccessToken', tempAccessToken);
+        // localStorage.setItem('jugendwerkstattRefreshToken', tempRefreshToken);
+
+        // const localStorageAccessToken = localStorage.getItem('jugendwerkstattAccessToken');
+        // const localStorageRefreshToken = localStorage.getItem('jugendwerkstattRefreshToken');
+
+        // console.log('from local storage access token', localStorageAccessToken);
+        // console.log('from local storage refresh token', localStorageRefreshToken);
+
+    }
+  }, [setUserToken, setRefreshToken, data]);
+  
+
+//   useEffect(() => {
+//     console.log("userToken", userToken);
+//     console.log("refreshToken", refreshToken);
+//   }, [userToken, refreshToken]);
 
   const Login = () => {
+
     var isValid = true;
     setEmailValidationText("");
     setPasswordValidationText("");
@@ -74,20 +102,16 @@ const Index = () => {
     }
 
     if (isValid) {
-      setDisabledButton(true);
+    //   setDisabledButton(true);
 
-      console.log('test1');
-
-      const responseToken = getUserTokenFunction({
+      getUserTokenFunction({
         variables: {
-          username: emailRef.current.value,
-          password: passwordRef.current.value,
+          username: tempEmailValue,
+          password: tempPasswordValue,
         },
       });
 
-      console.log('test2');
-      console.log(responseToken);
-      console.log('test3');
+    //   console.log("usertoken", userToken);
 
       var responseMessage = "wrong";
 
@@ -97,10 +121,10 @@ const Index = () => {
         );
       }
 
-      if (responseMessage != "success") {
-        emailRef.current.value = "";
-        passwordRef.current.value = "";
-      }
+    //   if (responseMessage != "success") {
+    //     emailRef.current.value = "";
+    //     passwordRef.current.value = "";
+    //   }
 
       // if(responseMessage=='success'){
       //     window.location.href="/Home";

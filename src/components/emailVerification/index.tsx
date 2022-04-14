@@ -1,8 +1,25 @@
-import React from "react";
+import React,
+{
+  MutableRefObject,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ReactComponent as DoneSign } from "../../images/done-sign.svg";
 import logo from "../../images/jugendwerkstatt-logo.png";
+import AuthContext from "../../contexts/AuthContext";
 
 const Index = () => {
+
+  // const { userToken, setUserToken } = useContext(AuthContext);
+  // const { refreshToken, setRefreshToken } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   console.log("userToken", userToken);
+  //   console.log("refreshToken", refreshToken);
+  // }, [userToken, refreshToken]);
+
   // const [emailVerification, setEmailVerification] = useState(true);
   // const [emailVerificationMessage, setEmailVerificationMessage] = useState('Sie haben Ihre E-Mail-Adresse erfolgreich bestätigt');
   //Sie haben Ihre E-Mail-Adresse erfolgreich bestätigt

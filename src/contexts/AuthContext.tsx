@@ -3,9 +3,10 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext<any>(null);
 
 export const AuthProvider: React.FunctionComponent = ({ children }) => {
-  const [isLogedIn, setIsLogedIn] = useState<string>();
+  const [isLogedIn, setIsLogedIn] = useState<boolean>();
   const [username, setUsername] = useState();
-  const [userToken, setuserToken] = useState<boolean>(false);
+  const [userToken, setUserToken] = useState<string>();
+  const [refreshToken, setRefreshToken] = useState<string>();
   return (
     <AuthContext.Provider
       value={{
@@ -14,7 +15,9 @@ export const AuthProvider: React.FunctionComponent = ({ children }) => {
         username,
         setUsername,
         userToken,
-        setuserToken,
+        setUserToken,
+        refreshToken,
+        setRefreshToken,
       }}
     >
       {children}

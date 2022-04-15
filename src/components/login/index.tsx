@@ -6,17 +6,20 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { LOGIN_GET_TOKEN } from "../../GraphQl/Query";
 import logo from "../../images/jugendwerkstatt-logo.png";
-// import jwt from 'jwt-decode'
 
-const Index = () => {
+
+const Login = () => {
   const [passwordInputType, setPasswordInputType] = useState("password");
   const [hiddenLine, setHiddenLine] = useState(true);
   const [disabledButton, setDisabledButton] = useState(false);
   const [emailValidationText, setEmailValidationText] = useState("");
   const [passwordValidationText, setPasswordValidationText] = useState("");
+
+  const navigate = useNavigate();
 
   const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
   const passwordRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -41,27 +44,43 @@ const Index = () => {
         const tempRefreshToken = data.createToken.refresh;
         setUserToken(tempAccessToken);
         setRefreshToken(tempRefreshToken);
+        
+        localStorage.setItem('jugendwerkstattAccessToken', tempAccessToken);
+        localStorage.setItem('jugendwerkstattRefreshToken', tempRefreshToken);
 
+        // const decoded = JSON.parse(atob(tempAccessToken.split('.')[1]));
+        // // console.log(decoded);
+        
+        // const roles = decoded.roles;
+        // if(roles.indexOf("verified") > -1){
+        //     localStorage.setItem('jugendwerkstattAccessToken', tempAccessToken);
+        //     localStorage.setItem('jugendwerkstattRefreshToken', tempRefreshToken);
 
-        const decoded = JSON.parse(atob(tempAccessToken.split('.')[1]));
-        console.log(decoded);
-        const roles = decoded.roles;
-        if(roles.indexOf("verified") > -1){
-            console.log("it's verified");
-        }
-        else{
-            console.log("it's NOT verified");
-        }
+        //     //success login
+        //     // navigation.navigate('HomePage')};
+            
+        // }
+        // else{
+        //     localStorage.setItem('jugendwerkstattAccessToken', "");
+        //     localStorage.setItem('jugendwerkstattRefreshToken', "");
 
-        // localStorage.setItem('jugendwerkstattAccessToken', tempAccessToken);
-        // localStorage.setItem('jugendwerkstattRefreshToken', tempRefreshToken);
+            
+        //     // if (responseMessage != "success") {
+        //         emailRef.current.value = "";
+        //         passwordRef.current.value = "";
+        //     // }
+        //     // navigate("/emailVerification");
+        //     // if(responseMessage=='success'){
+                
+        //         // window.location.href="/";
+        //     // }
+        // }
+
+ 
+
 
         // const localStorageAccessToken = localStorage.getItem('jugendwerkstattAccessToken');
         // const localStorageRefreshToken = localStorage.getItem('jugendwerkstattRefreshToken');
-
-        // console.log('from local storage access token', localStorageAccessToken);
-        // console.log('from local storage refresh token', localStorageRefreshToken);
-
     }
   }, [setUserToken, setRefreshToken, data]);
   
@@ -71,11 +90,11 @@ const Index = () => {
 //     console.log("refreshToken", refreshToken);
 //   }, [userToken, refreshToken]);
 
-  const Login = () => {
+  const OnSubmitLogin = () => {
 
     var isValid = true;
-    setEmailValidationText("");
-    setPasswordValidationText("");
+    // setEmailValidationText("");
+    // setPasswordValidationText("");
     var tempEmailValue = emailRef.current.value;
     var tempPasswordValue = passwordRef.current.value;
 
@@ -236,7 +255,7 @@ const Index = () => {
                       ? "pointer-events-none"
                       : "pointer-events-auto"
                   } text-center select-none row-span-1 w-full h-8 active:opacity-80 rounded-2xl bg-[#C20639] text-white`}
-                  onClick={Login}
+                  onClick={OnSubmitLogin}
                 >
                   <span className="align-middle">Anmelden</span>
                 </div>
@@ -260,7 +279,7 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Login;
 
 const styles = {
   mainButton: {

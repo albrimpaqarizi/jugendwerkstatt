@@ -43,8 +43,8 @@ const Map: FunctionComponent = () => {
           />
 
           {
-            allEvents?.map((event: any, index:number) => {
-              return (
+            allEvents?.map((event: any, index:number) => 
+               (
                 <div key={event.id} onClick={() => slideTo(index)}>
                   <Marker position={[event.address.latitude, event.address.longitude]} >
                     <Popup>
@@ -55,7 +55,7 @@ const Map: FunctionComponent = () => {
                   </Marker>
                 </div>
               )
-            })
+            )
           }
         </MapContainer>
 
@@ -67,8 +67,8 @@ const Map: FunctionComponent = () => {
             slidesPerView={1.5}
             onSlideChange={() => console.log()}
           >
-            {allEvents?.map((el: any, index: number) => {
-              return (
+            {allEvents?.map((el: any, index: number) => 
+              (
                 <SwiperSlide key={el.id}>
                   <div>
                     <SlideCard
@@ -81,8 +81,8 @@ const Map: FunctionComponent = () => {
                     />
                   </div>
                 </SwiperSlide>
-              );
-            })}
+              )
+            )}
           </Swiper>
         </div>
       </div>
